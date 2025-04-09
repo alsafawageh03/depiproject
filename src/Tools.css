@@ -1,0 +1,23 @@
+table td {
+    max-width: 100px;
+  }
+  
+  form input,
+  form select {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  form input:hover,
+  form select:hover {
+    padding: 8px;
+    border: 1px solid blue;
+  }
+  
+  form .btn {
+    border: 1px solid black;
+  }
+  form .btn:hover {
+    background-color: gray;
+  }
+  
