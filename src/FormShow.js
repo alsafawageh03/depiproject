@@ -1,56 +1,20 @@
-// export default function FormShow(props) {
-//     return (
-//       <div className="show">
-//         <div>
-//           <img src={props.img} alt="" />
-//           <h6 className="align-items-center">name</h6>
-//           <p>Status: {props.status}</p>
-//           <p>description: {props.desc}</p>
-//         </div>
-//         <button>close</button>
-//       </div>
-//     );
-//   }
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-// import { useState } from "react";
-
-// export default function FormShow({ items, onClose }) {
-//   let [show, setShow] = useState(true);
-
-//   if (!show) return null; // Prevent rendering if `show` is false.
-//   return (
-//     <div
-//       className="container w-50 h-100 flex justify-content-center align-items-center shadow p-4 mb-5 bg-white rounded"
-//       onChange={show}
-//     >
-//       <div className="flex justify-content-center align-items-center align-middle">
-//         <img
-//           src="https://www.ciamedical.com/insights/content/uploads/2016/02/ss2.png"
-//           alt=""
-//         />
-
-//         <p className="align-items-center">name:{items.name}</p>
-//         <p>Status: xxxxxx</p>
-//         <p>description: xxxxxxx </p>
-//         <div className="align">
-//           <button
-//             onClick={() => {
-//               setShow(false);
-//               onClose;
-//             }}
-//           >
-//             close
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-import { useState } from "react";
-
-export default function FormShow({ items, onClose }) {
+export default function FormShow({ onClose }) {
   const [show, setShow] = useState(true);
+  const [tool, setTool] = useState();
+  const parameter = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:9000/tools/${parameter.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTool(data);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [parameter.id]);
 
   // إيقاف عرض المكون إذا كانت الحالة `show` غير مفعلة
   if (!show) return null;
@@ -64,10 +28,10 @@ export default function FormShow({ items, onClose }) {
           className="img-fluid mb-3"
         />
 
-        <p className="mb-1">Name: {items?.name || "Unknown"}</p>
-        <p className="mb-1">Status: {items?.status || "No Status"}</p>
+        <p className="mb-1">Name: {tool?.name || "Unknown"}</p>
+        <p className="mb-1">Status: {tool?.status || "No Status"}</p>
         <p className="mb-3">
-          Description: {items?.description || "No Description"}
+          Description: {tool?.description || "No Description"}
         </p>
 
         <button
@@ -75,6 +39,7 @@ export default function FormShow({ items, onClose }) {
           onClick={() => {
             setShow(false); // إخفاء المكون
             if (onClose) onClose(); // استدعاء دالة الإغلاق إذا كانت موجودة
+            navigate("/search");
           }}
         >
           Close

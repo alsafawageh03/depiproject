@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Tools = () => {
   const [tools, setTools] = useState([]);
@@ -6,7 +7,7 @@ const Tools = () => {
   const [filteredTools, setFilteredTools] = useState([]);
   const [selected, setSelected] = useState("id");
   const [input, setInput] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch("http://localhost:9000/tools")
       .then((response) => response.json())
@@ -34,19 +35,23 @@ const Tools = () => {
 
   return (
     <div className="Tools ml-4">
-      <form className="container p-4 rounded shadow bg-light" role="search">
+      <form
+        className="container-fluid p-4 rounded shadow bg-light"
+        role="search"
+      >
         <div className="row mb-3">
-          <div className="col-md-12 text-center">
+          <div className="col-12 text-center">
             <h2 className="mb-4">Search Tools</h2>
           </div>
         </div>
+
         <div className="row mb-3 align-items-center">
-          <div className="col-md-3">
+          <div className="col-12 col-md-3">
             <label htmlFor="filter" className="form-label">
               Search By:
             </label>
           </div>
-          <div className="col-md-9">
+          <div className="col-12 col-md-9">
             <select
               className="form-select"
               onChange={(e) => setSelected(e.target.value)}
@@ -58,13 +63,14 @@ const Tools = () => {
             </select>
           </div>
         </div>
+
         <div className="row mb-3">
-          <div className="col-md-3">
+          <div className="col-12 col-md-3">
             <label htmlFor="searchInput" className="form-label">
               Enter Query:
             </label>
           </div>
-          <div className="col-md-9">
+          <div className="col-12 col-md-9">
             <input
               className="form-control"
               type="search"
@@ -82,8 +88,9 @@ const Tools = () => {
             />
           </div>
         </div>
+
         <div className="row text-center">
-          <div className="col-md-6">
+          <div className="col-12 col-md-6 mb-2 mb-md-0">
             <button
               className="btn btn-primary w-100"
               type="button"
@@ -92,7 +99,7 @@ const Tools = () => {
               Search
             </button>
           </div>
-          <div className="col-md-6">
+          <div className="col-12 col-md-6">
             <button
               className="btn btn-secondary w-100"
               type="button"
@@ -109,7 +116,6 @@ const Tools = () => {
           <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Image</th>
             <th>Count</th>
             <th>Status</th>
             <th>Last Modified</th>
@@ -118,10 +124,9 @@ const Tools = () => {
         <tbody>
           {filteredTools.length > 0 ? (
             filteredTools.map((el) => (
-              <tr key={el.id}>
+              <tr key={el.id} onClick={() => navigate(`/tool/${el.id}`)}>
                 <td>{el.id}</td>
                 <td>{el.name}</td>
-                <td>{el.img}</td>
                 <td>{el.count}</td>
                 <td>{el.status}</td>
                 <td>{el.lastModified}</td>
